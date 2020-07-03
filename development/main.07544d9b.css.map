@@ -1,0 +1,1 @@
+{"version":3,"sources":["sass/main.scss"],"names":[],"mappings":"AAIA;EACE;;;AAGF;EACE;EACA","file":"main.07544d9b.css","sourceRoot":"../src","sourcesContent":["@import \"second\";\n\n$main-color: purple;\n\nbody {\n  background-color: blue;\n}\n\nli {\n  color: red;\n  font-size: 20px;\n}\n"]}
