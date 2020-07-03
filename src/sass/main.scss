@@ -1,12 +1,19 @@
-@import "second";
+@import "app";
+@import "nav";
+@import "cursor";
+@import "work";
+@import "footer";
 
-$main-color: purple;
+/* 
+font-family: 'Forum', cursive;
+font-family: 'Give You Glory', cursive;
+font-family: 'Quicksand', sans-serif;
+*/
 
-body {
-  background-color: blue;
-}
-
-li {
-  color: red;
-  font-size: 20px;
+// ! Helper functions
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
