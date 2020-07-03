@@ -16,3 +16,31 @@ font-family: 'Quicksand', sans-serif;
   justify-content: center;
   align-items: center;
 }
+
+// ! Page Transitions
+.swipe {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+}
+.swipe1 {
+  background: black;
+  z-index: 7;
+}
+.swipe2 {
+  background: white;
+  z-index: 6;
+}
+.swipe3 {
+  background: black;
+  z-index: 5;
+}
+
+// type writer
+.name {
+  letter-spacing: 0.5rem;
+  color: rgb(86, 124, 228);
+}
