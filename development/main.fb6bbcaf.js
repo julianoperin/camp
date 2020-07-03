@@ -117,18 +117,353 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"js/main.js":[function(require,module,exports) {
-var app = document.getElementById("app");
-var data = [1, 2, 3, 45, 6, 10, 10, 10];
-var newData = data.map(function (item) {
-  return item * 2;
+})({"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"sass/main.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"js/main.js":[function(require,module,exports) {
+"use strict";
+
+require("../sass/main.scss");
+
+var controller;
+var slideScene;
+
+function animateSlides() {
+  //Init Controller
+  controller = new ScrollMagic.Controller(); //Select some things
+
+  var sliders = document.querySelectorAll(".slide");
+  var nav = document.querySelector("nav"); //Loop over the slides
+
+  sliders.forEach(function (slide, index, slides) {
+    var revealImg = slide.querySelector(".reveal-img");
+    var img = slide.querySelector("img");
+    var desc = slide.querySelector(".hero-desc"); //GSAP - Create a timeline
+
+    var slideTl = gsap.timeline({
+      defaults: {
+        duration: 1,
+        ease: "power2.inOut"
+      }
+    });
+    slideTl.fromTo(revealImg, {
+      x: "0%"
+    }, {
+      x: "100%"
+    });
+    slideTl.fromTo(img, {
+      scale: 2
+    }, {
+      scale: 1
+    }, "-=1");
+    slideTl.fromTo(desc, {
+      x: "200%"
+    }, {
+      x: "0%"
+    }, "-=0.75");
+    slideTl.fromTo(nav, {
+      y: "-100%"
+    }, {
+      y: "0%"
+    }, "-=0.5"); //Create Scene to activate when scrolled
+
+    slideScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      triggerHook: 0.4,
+      reverse: false
+    }).setTween(slideTl).addIndicators({
+      colorStart: "black",
+      colorTrigger: "blue",
+      name: "slide"
+    }).addTo(controller); // New Animation
+  });
+} //! ********  Cursor Animation ******/
+
+
+var mouse = document.querySelector(".cursor");
+var mouseTxt = mouse.querySelector("span");
+var burger = document.querySelector(".burger");
+var links = document.querySelectorAll(".nav-links li"); //! Animation for the nav links
+
+links.forEach(function (link) {
+  link.addEventListener("mouseover", function () {
+    mouse.classList.add("link-grow");
+  });
+  link.addEventListener("mouseleave", function () {
+    mouse.classList.remove("link-grow");
+  });
+}); //! Function to move cursor
+
+function cursor(e) {
+  mouse.style.top = e.pageY + "px";
+  mouse.style.left = e.pageX + "px";
+}
+
+function activeCursor(e) {
+  var item = e.target; // Logo
+
+  if (item.id === "logo") {
+    mouse.classList.add("logo-active");
+  } else {
+    mouse.classList.remove("logo-active");
+  } // img
+
+
+  if (item.classList.contains("images")) {
+    mouse.classList.add("blur");
+  } else {
+    mouse.classList.remove("blur");
+  } // burger
+
+
+  if (item.classList.contains("burger") || item.classList.contains("line1") || item.classList.contains("line2") || item.classList.contains("line3")) {
+    mouse.classList.add("burger-active");
+  } else {
+    mouse.classList.remove("burger-active");
+  } // explore btn
+
+
+  if (item.classList.contains("explore")) {
+    mouse.classList.add("explore-active");
+    mouseTxt.innerText = "Explore!"; // gsap.to(".title-swipe", 1, { y: "0%" });
+    // gsap.fromTo(".fill", 0.1, { opacity: 1 }, { opacity: 0 });
+
+    gsap.fromTo(".explore", 0.1, {
+      opacity: 1
+    }, {
+      opacity: 0
+    });
+  } else {
+    mouse.classList.remove("explore-active");
+    mouseTxt.innerText = "";
+    gsap.fromTo(".explore", 0.1, {
+      opacity: 0
+    }, {
+      opacity: 1
+    }); // gsap.to(".title-swipe", 1, { y: "100%" });
+  }
+} // Event listeners
+
+
+window.addEventListener("mousemove", cursor);
+window.addEventListener("mouseover", activeCursor); //! ***************** Nav Slide ************** !//
+
+var navSlide = function navSlide() {
+  var burger = document.querySelector(".burger");
+  var nav = document.querySelector(".nav-links");
+  var links = document.querySelectorAll(".nav-links li");
+  var corp = document.querySelector("body"); //! Toggle Nav
+
+  burger.addEventListener("click", function () {
+    nav.classList.toggle("nav-active"); //! Animate Links
+
+    links.forEach(function (link, index) {
+      if (link.style.animation) {
+        link.style.animation = "";
+      } else {
+        link.style.animation = "navLinkFade 0.5s ease forwards ".concat(index / 2 + 0.3, "s");
+      }
+    }); //! Burger Animation
+
+    burger.classList.toggle("toggle"); //! Body overflow and disappear
+
+    corp.classList.toggle("over");
+  });
+};
+
+navSlide(); //! ************* Barba Page Transitions ************** !//
+
+var logo = document.querySelector("#logo");
+var home = document.querySelector(".home-link");
+var about = document.querySelector(".about-link");
+var work = document.querySelector(".work-link");
+var contact = document.querySelector(".contact-link");
+barba.init({
+  views: [{
+    namespace: "home",
+    beforeEnter: function beforeEnter() {
+      animateSlides();
+      logo.href = "./index.html";
+      home.href = "./index.html";
+      about.href = "./about.html";
+      work.href = "./work.html";
+      contact.href = "./contact.html";
+    },
+    beforeLeave: function beforeLeave() {
+      slideScene.destroy();
+      controller.destroy();
+    }
+  }, {
+    namespace: "fashion",
+    beforeEnter: function beforeEnter() {
+      logo.href = "./index.html";
+      home.href = "./index.html";
+      about.href = "./about.html";
+      work.href = "./work.html";
+      contact.href = "./contact.html";
+      detailAnimation();
+    },
+    beforeLeave: function beforeLeave() {
+      controller.destroy();
+      detailScene.destroy();
+    }
+  }, {
+    namespace: "about",
+    beforeEnter: function beforeEnter() {
+      logo.href = "./index.html";
+      home.href = "./index.html";
+      about.href = "./about.html";
+      work.href = "./work.html";
+      contact.href = "./contact.html";
+      detailAnimation();
+    },
+    beforeLeave: function beforeLeave() {
+      controller.destroy();
+      detailScene.destroy();
+    }
+  }, {
+    namespace: "contact",
+    beforeEnter: function beforeEnter() {
+      logo.href = "./index.html";
+      home.href = "./index.html";
+      about.href = "./about.html";
+      work.href = "./work.html";
+      contact.href = "./contact.html";
+      detailAnimation();
+    },
+    beforeLeave: function beforeLeave() {
+      controller.destroy();
+      detailScene.destroy();
+    }
+  }],
+  transitions: [{
+    // ! Leave
+    leave: function leave(_ref) {
+      var current = _ref.current,
+          next = _ref.next;
+      var done = this.async(); //An Animation
+
+      var tl = gsap.timeline({
+        defaults: {
+          ease: "power2.inOut"
+        }
+      });
+      tl.fromTo(current.container, 1, {
+        opacity: 1
+      }, {
+        opacity: 0
+      });
+      tl.fromTo(".swipe", 1, {
+        x: "-100%"
+      }, {
+        x: "0%",
+        onComplete: done
+      }, "-=0.2");
+    },
+    // ! Enter
+    enter: function enter(_ref2) {
+      var current = _ref2.current,
+          next = _ref2.next;
+      var done = this.async(); //Scroll to the top
+
+      window.scrollTo(0, 0); //An Animation
+
+      var tl = gsap.timeline({
+        defaults: {
+          ease: "power2.inOut"
+        }
+      });
+      tl.fromTo(".swipe", 1, {
+        x: "0%"
+      }, {
+        x: "100%",
+        stagger: 0.3,
+        onComplete: done
+      });
+      tl.fromTo(next.container, 1, {
+        opacity: 0
+      }, {
+        opacity: 1
+      });
+      tl.fromTo(".nav-header", 1, {
+        y: "-100%"
+      }, {
+        y: "0%",
+        ease: "power2.inOut"
+      }, "-=1.5");
+    }
+  }]
 });
-newData.forEach(function (item) {
-  var li = document.createElement("li");
-  li.textContent = item;
-  app.appendChild(li);
-});
-},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../sass/main.scss":"sass/main.scss"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -156,7 +491,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50421" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50853" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

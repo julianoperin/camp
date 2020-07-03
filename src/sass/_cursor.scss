@@ -1,0 +1,56 @@
+//  CURSOR
+.cursor {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px black solid;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  // animation for the cursor
+  transition: all 0.5s ease-in-out;
+  transition-property: background, transform;
+  transform-origin: 75% 75%;
+}
+
+.cursor.logo-active {
+  background: rgb(86, 124, 228);
+  transform: scale(2.5);
+  z-index: 1;
+  border: 2px solid black;
+}
+
+// burger
+.cursor.burger-active {
+  background: rgb(86, 124, 228);
+  transform: scale(1.5);
+  border: 2px solid black;
+  z-index: 1;
+  transform-origin: 120% 120%;
+}
+
+.cursor.explore-active {
+  background: black;
+  color: white;
+  transform: scale(3);
+}
+.cursor-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 0.5rem;
+  transform: translate(-50%, -50%);
+}
+
+// IMG
+.blur {
+  border: 2px solid white;
+  transform: scale(1.2);
+  transform-origin: 100px 100px;
+}
+
+.cursor.link-grow {
+  transform: scale(2);
+  background: rgb(86, 124, 228);
+  transform-origin: 100% 100%;
+}
