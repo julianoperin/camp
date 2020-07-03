@@ -94,8 +94,7 @@ nav {
   position: relative;
   z-index: 5;
 }
-
-.logo {
+nav .logo {
   color: black;
   text-transform: uppercase;
   font-size: 26px;
@@ -103,8 +102,7 @@ nav {
   flex: 1;
   margin-left: 20px;
 }
-
-.nav-links {
+nav .nav-links {
   display: flex;
   justify-content: space-around;
   align-items: items;
@@ -112,14 +110,12 @@ nav {
   flex: 1;
   position: relative;
 }
-
-.nav-links li {
+nav .nav-links li {
   padding: 1rem;
   list-style: none;
   z-index: 5;
 }
-
-.nav-links li a {
+nav .nav-links li a {
   color: black;
   text-decoration: none;
   letter-spacing: 3px;
@@ -256,6 +252,71 @@ nav {
   transform: scale(2);
   background: #567ce4;
   transform-origin: 100% 100%;
+}
+
+/* Other Pages */
+.fashion1,
+.fashion2,
+.fashion3 {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  margin: auto;
+  color: black;
+  margin-top: 5rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.fashion-img {
+  height: 70vh;
+  flex-basis: 30rem;
+}
+
+.fashion-text {
+  flex: 1;
+  position: relative;
+  flex-basis: 25rem;
+}
+
+.fashion-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fashion-text h1 {
+  font-size: 6rem;
+  padding: 5rem 0rem;
+}
+
+.fashion1 h1 {
+  color: #ff8b5d;
+}
+
+.fashion2 h1 {
+  color: #a76ee7;
+}
+
+.fashion3 h1 {
+  color: #567ce4;
+}
+
+.fashion-text p {
+  font-size: 2rem;
+  padding: 2rem 2rem 0rem 0rem;
+  margin-bottom: 10rem;
+}
+
+.fashion-nr {
+  font-size: 15rem;
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  color: white;
+  opacity: 0.2;
 }
 
 /* 

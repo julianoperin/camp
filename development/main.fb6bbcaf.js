@@ -463,6 +463,49 @@ barba.init({
     }
   }]
 });
+var detailScene; // ! Detail animation
+
+function detailAnimation() {
+  controller = new ScrollMagic.Controller();
+  var slides = document.querySelectorAll(".detail-slide");
+  slides.forEach(function (slide, index, slides) {
+    var slideTl = gsap.timeline({
+      defaults: {
+        duration: 1
+      }
+    });
+    var nextSlide = slides.length - 1 === index ? "end" : slides[index + 1];
+    var nextImg = nextSlide.querySelector("img");
+    slideTl.fromTo(slide, {
+      opacity: 1
+    }, {
+      opacity: 0
+    });
+    slideTl.fromTo(nextSlide, {
+      opacity: 0
+    }, {
+      opacity: 1
+    }, "-=1");
+    slideTl.fromTo(nextImg, {
+      x: "50%"
+    }, {
+      x: "0%"
+    }); //Scene
+
+    detailScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      duration: "100%",
+      triggerHook: 0
+    }).setPin(slide, {
+      pushFollowers: false
+    }).setTween(slideTl) // .addIndicators({
+    //   colorStart: "white",
+    //   colorTrigger: "white",
+    //   name: "detailScene"
+    // })
+    .addTo(controller);
+  });
+}
 },{"../sass/main.scss":"sass/main.scss"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
